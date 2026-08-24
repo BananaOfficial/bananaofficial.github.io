@@ -12,5 +12,4 @@ The software and associated files are provided "as is", without warranty of
 any kind, express or implied.
 
 For permission to use this software or its associated files, please contact
-
-the copyright holder.
+the copyright holder through the contact information provided.
