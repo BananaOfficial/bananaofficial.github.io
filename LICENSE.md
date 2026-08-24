@@ -1,6 +1,6 @@
 # All Rights Reserved
 
-Copyright (c) 2026 BananaOfficial
+Copyright (c) 2026 [@BananaOfficial](https://github.com/BananaOfficial)
 
 All rights reserved.
 
