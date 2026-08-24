@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BananaOfficial</title>
+
+    <meta name="description"
+          content="BananaOfficial — projects, experiments, bananas, and other questionable decisions.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0d0d0d;
+            color: #e8e8e8;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: #111;
+            border-bottom: 1px solid #292929;
+            padding: 17px 6%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: auto;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 30px;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #f5c842;
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.15s;
+        }
+
+        nav a:hover {
+            color: #f5c842;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 650px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 100px 6%;
+
+            background:
+                radial-gradient(
+                    circle at 50% 35%,
+                    #332b0d 0,
+                    #181609 22%,
+                    #0d0d0d 55%
+                );
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .banana {
+            font-size: 75px;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            margin: 0;
+
+            font-size: clamp(48px, 8vw, 90px);
+
+            letter-spacing: -4px;
+        }
+
+        .hero h1 span {
+            color: #f5c842;
+        }
+
+        .hero p {
+            max-width: 680px;
+
+            margin: 25px auto;
+
+            color: #999;
+
+            font-size: 19px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+
+            padding: 12px 20px;
+
+            border-radius: 7px;
+
+            background: #f5c842;
+            color: #111;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.15s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+
+        .button.secondary {
+            background: #191919;
+            color: #ddd;
+
+            border: 1px solid #333;
+        }
+
+        /* ================= SECTIONS ================= */
+
+        section {
+            padding: 90px 6%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .section-title {
+            font-size: 38px;
+            margin: 0 0 10px;
+        }
+
+        .section-description {
+            color: #888;
+            max-width: 700px;
+
+            margin-bottom: 35px;
+        }
+
+        /* ================= CARDS ================= */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+
+            gap: 18px;
+        }
+
+        .card {
+            background: #151515;
+
+            border: 1px solid #292929;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            transition: 0.18s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+
+            border-color: #4a4120;
+
+            box-shadow:
+                0 12px 35px #0008;
+        }
+
+        .card-icon {
+            font-size: 34px;
+        }
+
+        .card h3 {
+            margin: 10px 0 6px;
+        }
+
+        .card p {
+            color: #888;
+        }
+
+        .card a {
+            color: #f5c842;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        /* ================= PROJECTS ================= */
+
+        .projects {
+            background: #101010;
+
+            border-top: 1px solid #202020;
+            border-bottom: 1px solid #202020;
+        }
+
+        .feature-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.2fr 1fr;
+
+            gap: 45px;
+
+            align-items: center;
+        }
+
+        .feature-text p {
+            color: #999;
+
+            max-width: 600px;
+        }
+
+        .feature-box {
+            background: #151515;
+
+            border: 1px solid #292929;
+
+            border-radius: 12px;
+
+            padding: 25px;
+        }
+
+        .code {
+            background: #0a0a0a;
+
+            border: 1px solid #222;
+
+            border-radius: 8px;
+
+            padding: 20px;
+
+            font-family: Consolas, monospace;
+
+            color: #aaa;
+
+            overflow-x: auto;
+        }
+
+        .code .yellow {
+            color: #f5c842;
+        }
+
+        /* ================= BANANA ================= */
+
+        .banana-section {
+            background:
+                linear-gradient(
+                    180deg,
+                    #171506,
+                    #0d0d0d
+                );
+        }
+
+        .facts {
+            max-width: 850px;
+        }
+
+        .fact {
+            padding: 18px 0;
+
+            border-bottom: 1px solid #2d2915;
+
+            color: #bbb;
+        }
+
+        .fact:last-child {
+            border-bottom: none;
+        }
+
+        /* ================= CONTACT ================= */
+
+        .contact {
+            text-align: center;
+
+            background: #111;
+
+            border-top: 1px solid #222;
+        }
+
+        .contact .section-description {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #080808;
+
+            border-top: 1px solid #242424;
+
+            padding: 70px 6% 30px;
+
+            color: #888;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                2fr repeat(4, 1fr);
+
+            gap: 45px;
+        }
+
+        footer h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        footer h4 {
+            color: #ddd;
+            margin-bottom: 14px;
+        }
+
+        footer a {
+            display: block;
+
+            color: #777;
+
+            text-decoration: none;
+
+            margin: 7px 0;
+
+            font-size: 14px;
+
+            transition: 0.15s;
+        }
+
+        footer a:hover {
+            color: #f5c842;
+        }
+
+        .footer-description {
+            max-width: 310px;
+
+            color: #666;
+        }
+
+        .copyright {
+            max-width: 1200px;
+
+            margin: 55px auto 0;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #222;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+
+            font-size: 13px;
+
+            color: #555;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 800px) {
+
+            .nav {
+                flex-direction: column;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 550px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<header>
+
+    <div class="nav">
+
+        <a href="/" class="logo">
+            🍌 Banana<span>Official</span>
+        </a>
+
+        <nav>
+
+            <a href="#about">About</a>
+
+            <a href="#projects">Projects</a>
+
+            <a href="#stuff">Stuff</a>
+
+            <a href="#bananas">Bananas</a>
+
+            <a href="#contact">Contact</a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<main>
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="banana">
+            🍌
+        </div>
+
+        <h1>
+            Banana<span>Official</span>
+        </h1>
+
+        <p>
+            Projects, experiments, random creations,
+            questionable decisions, and an unnecessarily
+            large amount of information about bananas.
+        </p>
+
+        <div class="buttons">
+
+            <a class="button" href="#projects">
+                View Projects
+            </a>
+
+            <a
+                class="button secondary"
+                href="/about/bananas.html"
+            >
+                Banana Research
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section id="about">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            About
+        </h2>
+
+        <p class="section-description">
+            Welcome to BananaOfficial — the place where
+            projects, experiments and completely unnecessary
+            webpages are stored.
+        </p>
+
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    👤
+                </div>
+
+                <h3>
+                    About Me
+                </h3>
+
+                <p>
+                    Find out who is responsible for this website.
+                </p>
+
+                <a href="/about/me.html">
+                    Learn more →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🌐
+                </div>
+
+                <h3>
+                    About This Website
+                </h3>
+
+                <p>
+                    Why does this website exist?
+                    Excellent question.
+                </p>
+
+                <a href="/about/website.html">
+                    Read more →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🍌
+                </div>
+
+                <h3>
+                    Bananas
+                </h3>
+
+                <p>
+                    An unnecessarily detailed investigation
+                    into bananas.
+                </p>
+
+                <a href="/about/bananas.html">
+                    Enter banana zone →
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PROJECTS ================= -->
+
+<section
+    id="projects"
+    class="projects"
+>
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Projects
+        </h2>
+
+        <p class="section-description">
+            Things that have been created, are being created,
+            or may eventually be created.
+        </p>
+
+
+        <div class="feature-grid">
+
+
+            <div class="feature-text">
+
+                <h2>
+                    JARify
+                </h2>
+
+                <p>
+                    A project designed to make Minecraft mod
+                    development easier by handling some of the
+                    annoying parts of the process.
+                </p>
+
+                <a
+                    class="button"
+                    href="/projects/jarify.html"
+                >
+                    View JARify
+                </a>
+
+            </div>
+
+
+            <div class="feature-box">
+
+                <div class="code">
+
+                    <span class="yellow">
+                        bananaofficial
+                    </span><br>
+
+                    ├── projects<br>
+
+                    │&nbsp;&nbsp;├── JARify<br>
+
+                    │&nbsp;&nbsp;├── experiments<br>
+
+                    │&nbsp;&nbsp;└── other-stuff<br>
+
+                    ├── about<br>
+
+                    ├── downloads<br>
+
+                    └── 🍌
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= OTHER STUFF ================= -->
+
+<section id="stuff">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Other Stuff
+        </h2>
+
+        <p class="section-description">
+            Because apparently projects weren't enough.
+        </p>
+
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🧪
+                </div>
+
+                <h3>
+                    Experiments
+                </h3>
+
+                <p>
+                    Random technical experiments and things
+                    that may or may not work.
+                </p>
+
+                <a href="/stuff/experiments.html">
+                    Explore →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ⬇️
+                </div>
+
+                <h3>
+                    Downloads
+                </h3>
+
+                <p>
+                    Programs, files, tools and other downloadable
+                    things.
+                </p>
+
+                <a href="/downloads.html">
+                    Downloads →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🗃️
+                </div>
+
+                <h3>
+                    Archive
+                </h3>
+
+                <p>
+                    Old projects and things that haven't been
+                    touched in approximately 900 years.
+                </p>
+
+                <a href="/archive.html">
+                    Open archive →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ❓
+                </div>
+
+                <h3>
+                    Random
+                </h3>
+
+                <p>
+                    You clicked the random button.
+                    You have been warned.
+                </p>
+
+                <a href="/random.html">
+                    Proceed →
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BANANA ================= -->
+
+<section
+    id="bananas"
+    class="banana-section"
+>
+
+    <div class="container">
+
+        <h2 class="section-title">
+            🍌 Banana Corner
+        </h2>
+
+        <p class="section-description">
+            Yes, there is an entire section of this website
+            dedicated to bananas.
+        </p>
+
+
+        <div class="facts">
+
+            <div class="fact">
+                🍌 Bananas are botanically classified as berries.
+            </div>
+
+            <div class="fact">
+                🌱 Banana plants are technically giant herbs.
+            </div>
+
+            <div class="fact">
+                🧬 Cultivated bananas have a complicated
+                domestication history.
+            </div>
+
+            <div class="fact">
+                🌎 Bananas are grown throughout tropical and
+                subtropical regions around the world.
+            </div>
+
+        </div>
+
+
+        <br>
+
+        <a
+            class="button"
+            href="/about/bananas.html"
+        >
+            Read the full banana page →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CONTACT ================= -->
+
+<section
+    id="contact"
+    class="contact"
+>
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Contact
+        </h2>
+
+        <p class="section-description">
+            Have something to say? Found a broken link?
+            Discovered a suspicious banana?
+        </p>
+
+        <div class="buttons">
+
+            <a
+                class="button"
+                href="mailto:no"
+            >
+                Email
+            </a>
+
+            <a
+                class="button secondary"
+                href="https://github.com/BananaOfficial"
+            >
+                GitHub
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= MASSIVE FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-grid">
+
+
+        <div>
+
+            <h3>
+                🍌 BananaOfficial
+            </h3>
+
+            <p class="footer-description">
+                A website containing projects, experiments,
+                information, bananas, and an unreasonable
+                number of links.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                About
+            </h4>
+
+            <a href="/about/me.html">
+                About Me
+            </a>
+
+            <a href="/about/website.html">
+                This Website
+            </a>
+
+            <a href="/about/bananas.html">
+                Bananas
+            </a>
+
+            <a href="/about/history.html">
+                History
+            </a>
+
+            <a href="/about/faq.html">
+                FAQ
+            </a>
+
+            <a href="/about/changelog.html">
+                Changelog
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                Projects
+            </h4>
+
+            <a href="/projects/">
+                All Projects
+            </a>
+
+            <a href="/projects/jarify.html">
+                JARify
+            </a>
+
+            <a href="/projects/experiments.html">
+                Experiments
+            </a>
+
+            <a href="/projects/archive.html">
+                Project Archive
+            </a>
+
+            <a href="/projects/future.html">
+                Future Projects
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                Resources
+            </h4>
+
+            <a href="/downloads.html">
+                Downloads
+            </a>
+
+            <a href="/docs.html">
+                Documentation
+            </a>
+
+            <a href="/guides.html">
+                Guides
+            </a>
+
+            <a href="/resources.html">
+                Resources
+            </a>
+
+            <a href="/links.html">
+                Useful Links
+            </a>
+
+            <a href="/sitemap.html">
+                Sitemap
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h4>
+                More
+            </h4>
+
+            <a href="/random.html">
+                Random Stuff
+            </a>
+
+            <a href="/archive.html">
+                Archive
+            </a>
+
+            <a href="/status.html">
+                Status
+            </a>
+
+            <a href="/contact.html">
+                Contact
+            </a>
+
+            <a href="/legal/">
+                Legal
+            </a>
+
+            <a href="/privacy.html">
+                Privacy
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="copyright">
+
+        <span>
+            © 2026 BananaOfficial
+        </span>
+
+        <span>
+            Built with HTML, CSS, and an unreasonable amount
+            of bananas. 🍌
+        </span>
+
+    </div>
+
+</footer>
+
+
+</body>
+</html>
