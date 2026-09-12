@@ -850,204 +850,217 @@
   </div>
 
 
-  <script>
-    const API_BASE =
-      "https://cdn.bananaofficial.workers.dev/api/qr/";
+<script>
+  const API_BASE =
+    "https://cdn.bananaofficial.workers.dev/api/qr/";
 
-    /*
-     * Build the API URL.
-     *
-     * The color parameter is intentionally omitted when the
-     * selected color is 000000.
-     */
-    function buildUrl(username, color) {
-      let url =
-        API_BASE +
-        "?user=" +
-        encodeURIComponent(username);
+  function buildUrl(username, color) {
+    let url =
+      API_BASE +
+      "?user=" +
+      encodeURIComponent(username);
 
-      const cleanColor = color
-        .replace("#", "")
-        .toUpperCase();
+    const cleanColor = color
+      .replace("#", "")
+      .toUpperCase();
 
-      if (cleanColor !== "000000") {
-        url += "&color=" + cleanColor;
-      }
-
-      return url;
+    // Black is the API default, so don't include it.
+    if (cleanColor !== "000000") {
+      url += "&color=" + cleanColor;
     }
 
-    function setupColorPicker(input, output) {
-      input.addEventListener("input", () => {
-        output.textContent = input.value.toUpperCase();
+    return url;
+  }
+
+  function setupColorPicker(input, output) {
+    input.addEventListener("input", () => {
+      output.textContent = input.value.toUpperCase();
+    });
+  }
+
+  setupColorPicker(
+    document.getElementById("color"),
+    document.getElementById("colorValue")
+  );
+
+  setupColorPicker(
+    document.getElementById("testColor"),
+    document.getElementById("testColorValue")
+  );
+
+
+  function generateQR(options) {
+    const {
+      usernameInput,
+      colorInput,
+      urlInput,
+      image,
+      placeholder,
+      loading,
+      error,
+      button
+    } = options;
+
+    const username = usernameInput.value.trim();
+
+    error.style.display = "none";
+    image.style.display = "none";
+    placeholder.style.display = "block";
+    loading.style.display = "none";
+    urlInput.value = "";
+
+    if (!username) {
+      error.textContent = "Enter a GitHub username first.";
+      error.style.display = "block";
+      return;
+    }
+
+    const url = buildUrl(
+      username,
+      colorInput.value
+    );
+
+    // Show the generated API URL.
+    urlInput.value = url;
+
+    // Don't fetch() it.
+    // Just let the browser load the image directly.
+    loading.style.display = "block";
+    placeholder.style.display = "none";
+
+    image.onload = () => {
+      loading.style.display = "none";
+      image.style.display = "block";
+    };
+
+    image.onerror = () => {
+      loading.style.display = "none";
+      placeholder.style.display = "block";
+
+      error.textContent =
+        "The QR endpoint could not return an image.";
+
+      error.style.display = "block";
+    };
+
+    image.src = url;
+  }
+
+
+  // Main generator
+  document.getElementById("generate").addEventListener(
+    "click",
+    () => {
+      generateQR({
+        usernameInput:
+          document.getElementById("username"),
+
+        colorInput:
+          document.getElementById("color"),
+
+        urlInput:
+          document.getElementById("generatedUrl"),
+
+        image:
+          document.getElementById("qr"),
+
+        placeholder:
+          document.getElementById("previewPlaceholder"),
+
+        loading:
+          document.getElementById("loading"),
+
+        error:
+          document.getElementById("error"),
+
+        button:
+          document.getElementById("generate")
       });
     }
-
-    setupColorPicker(
-      document.getElementById("color"),
-      document.getElementById("colorValue")
-    );
-
-    setupColorPicker(
-      document.getElementById("testColor"),
-      document.getElementById("testColorValue")
-    );
+  );
 
 
-    async function generateQR(options) {
-      const {
-        usernameInput,
-        colorInput,
-        urlInput,
-        image,
-        placeholder,
-        loading,
-        error,
-        button
-      } = options;
+  // Testing section
+  document.getElementById("testGenerate").addEventListener(
+    "click",
+    () => {
+      generateQR({
+        usernameInput:
+          document.getElementById("testUsername"),
 
-      const username = usernameInput.value.trim();
+        colorInput:
+          document.getElementById("testColor"),
 
-      error.style.display = "none";
-      image.style.display = "none";
-      placeholder.style.display = "block";
-      urlInput.value = "";
+        urlInput:
+          document.getElementById("testUrl"),
 
-      if (!username) {
-        error.textContent = "Enter a GitHub username first.";
-        error.style.display = "block";
-        return;
-      }
+        image:
+          document.getElementById("testQr"),
 
-      const url = buildUrl(
-        username,
-        colorInput.value
-      );
+        placeholder:
+          document.getElementById("testPlaceholder"),
 
-      urlInput.value = url;
+        loading:
+          document.getElementById("testLoading"),
 
-      button.disabled = true;
-      placeholder.style.display = "none";
-      loading.style.display = "block";
+        error:
+          document.getElementById("testError"),
+
+        button:
+          document.getElementById("testGenerate")
+      });
+    }
+  );
+
+
+  function setupCopy(buttonId, inputId) {
+    const button = document.getElementById(buttonId);
+    const input = document.getElementById(inputId);
+
+    button.addEventListener("click", async () => {
+      if (!input.value) return;
 
       try {
-        const response = await fetch(url);
+        await navigator.clipboard.writeText(input.value);
 
-        if (!response.ok) {
-          throw new Error(
-            "Endpoint returned HTTP " + response.status
-          );
-        }
+        const original = button.textContent;
+        button.textContent = "Copied!";
 
-        const blob = await response.blob();
-        const imageUrl = URL.createObjectURL(blob);
+        setTimeout(() => {
+          button.textContent = original;
+        }, 1200);
 
-        image.onload = () => {
-          URL.revokeObjectURL(imageUrl);
-        };
+      } catch {
+        input.select();
+        document.execCommand("copy");
+      }
+    });
+  }
 
-        image.src = imageUrl;
-        image.style.display = "block";
 
-      } catch (err) {
-        placeholder.style.display = "block";
+  setupCopy("copy", "generatedUrl");
+  setupCopy("testCopy", "testUrl");
 
-        error.textContent =
-          "Could not load the QR code: " + err.message;
 
-        error.style.display = "block";
-
-      } finally {
-        loading.style.display = "none";
-        button.disabled = false;
+  // Enter key support
+  document.getElementById("username").addEventListener(
+    "keydown",
+    event => {
+      if (event.key === "Enter") {
+        document.getElementById("generate").click();
       }
     }
+  );
 
-
-    document.getElementById("generate").addEventListener(
-      "click",
-      () => {
-        generateQR({
-          usernameInput: document.getElementById("username"),
-          colorInput: document.getElementById("color"),
-          urlInput: document.getElementById("generatedUrl"),
-          image: document.getElementById("qr"),
-          placeholder: document.getElementById("previewPlaceholder"),
-          loading: document.getElementById("loading"),
-          error: document.getElementById("error"),
-          button: document.getElementById("generate")
-        });
+  document.getElementById("testUsername").addEventListener(
+    "keydown",
+    event => {
+      if (event.key === "Enter") {
+        document.getElementById("testGenerate").click();
       }
-    );
-
-
-    document.getElementById("testGenerate").addEventListener(
-      "click",
-      () => {
-        generateQR({
-          usernameInput: document.getElementById("testUsername"),
-          colorInput: document.getElementById("testColor"),
-          urlInput: document.getElementById("testUrl"),
-          image: document.getElementById("testQr"),
-          placeholder: document.getElementById("testPlaceholder"),
-          loading: document.getElementById("testLoading"),
-          error: document.getElementById("testError"),
-          button: document.getElementById("testGenerate")
-        });
-      }
-    );
-
-
-    function setupCopy(buttonId, inputId) {
-      const button = document.getElementById(buttonId);
-      const input = document.getElementById(inputId);
-
-      button.addEventListener("click", async () => {
-        if (!input.value) {
-          return;
-        }
-
-        try {
-          await navigator.clipboard.writeText(input.value);
-
-          const oldText = button.textContent;
-          button.textContent = "Copied!";
-
-          setTimeout(() => {
-            button.textContent = oldText;
-          }, 1200);
-
-        } catch {
-          input.select();
-          document.execCommand("copy");
-        }
-      });
     }
-
-
-    setupCopy("copy", "generatedUrl");
-    setupCopy("testCopy", "testUrl");
-
-
-    document.getElementById("username").addEventListener(
-      "keydown",
-      event => {
-        if (event.key === "Enter") {
-          document.getElementById("generate").click();
-        }
-      }
-    );
-
-
-    document.getElementById("testUsername").addEventListener(
-      "keydown",
-      event => {
-        if (event.key === "Enter") {
-          document.getElementById("testGenerate").click();
-        }
-      }
-    );
-  </script>
+  );
+</script>
 
 </body>
 </html>
