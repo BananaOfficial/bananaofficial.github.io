@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>GitHub QR Generator</title>
+  <title>QR API</title>
 
   <style>
     :root {
@@ -60,8 +60,6 @@
         Menlo,
         monospace;
     }
-
-    /* ---------- Layout ---------- */
 
     .page {
       width: min(100% - 32px, 1000px);
@@ -145,8 +143,6 @@
       color: var(--muted);
       font-size: 15px;
     }
-
-    /* ---------- Generator ---------- */
 
     .generator {
       display: grid;
@@ -282,8 +278,6 @@
       font-weight: 600;
     }
 
-    /* ---------- QR preview ---------- */
-
     .preview {
       min-height: 250px;
       display: flex;
@@ -331,8 +325,6 @@
       display: none;
       margin-top: 8px;
     }
-
-    /* ---------- Documentation ---------- */
 
     .info-grid {
       display: grid;
@@ -399,8 +391,6 @@
       font-family: monospace;
     }
 
-    /* ---------- Usage ---------- */
-
     .usage {
       display: flex;
       flex-direction: column;
@@ -439,16 +429,12 @@
       line-height: 1.7;
     }
 
-    /* ---------- Footer ---------- */
-
     footer {
       padding: 28px 0 40px;
       border-top: 1px solid var(--border);
       color: var(--muted-2);
       font-size: 13px;
     }
-
-    /* ---------- Responsive ---------- */
 
     @media (max-width: 700px) {
       header {
@@ -481,10 +467,10 @@
     <header>
       <div class="eyebrow">
         <span class="eyebrow-dot"></span>
-        GitHub QR utility
+        QR utility
       </div>
 
-      <h1>GitHub QR Generator</h1>
+      <h1>QR API</h1>
 
       <p class="hero-text">
         Generate a QR code that points directly to a GitHub profile.
@@ -501,8 +487,6 @@
     </header>
 
     <main>
-
-      <!-- GENERATOR -->
 
       <section id="generator">
 
@@ -606,9 +590,6 @@
 
       </section>
 
-
-      <!-- HOW TO USE -->
-
       <section id="usage">
 
         <div class="section-heading">
@@ -627,7 +608,7 @@
               <span>GitHub, GitLab, etc.</span>
             </div>
 
-            <pre><code>![GitHub QR](https://cdn.bananaofficial.workers.dev/api/qr/?user=octocat)</code></pre>
+            <pre><code>![QR Code](https://cdn.bananaofficial.workers.dev/api/qr/?user=octocat)</code></pre>
           </div>
 
           <div class="usage-item">
@@ -635,7 +616,7 @@
               <strong>Markdown with a custom color</strong>
             </div>
 
-            <pre><code>![GitHub QR](https://cdn.bananaofficial.workers.dev/api/qr/?user=octocat&amp;color=7c3aed)</code></pre>
+            <pre><code>![QR Code](https://cdn.bananaofficial.workers.dev/api/qr/?user=octocat&amp;color=7c3aed)</code></pre>
           </div>
 
           <div class="usage-item">
@@ -653,9 +634,6 @@
         </div>
 
       </section>
-
-
-      <!-- API -->
 
       <section id="api">
 
@@ -702,9 +680,6 @@
 
       </section>
 
-
-      <!-- EXAMPLES -->
-
       <section>
 
         <div class="section-heading">
@@ -743,9 +718,6 @@
         </div>
 
       </section>
-
-
-      <!-- TESTING -->
 
       <section id="testing">
 
@@ -844,7 +816,7 @@
     </main>
 
     <footer>
-      GitHub QR Generator · QR codes point to GitHub profile pages.
+      QR API · QR codes point to GitHub profile pages · Not an official GitHub pruduct · Changing the color of the QR code might effect how responsive the QR code is.
     </footer>
 
   </div>
@@ -864,7 +836,6 @@
       .replace("#", "")
       .toUpperCase();
 
-    // Black is the API default, so don't include it.
     if (cleanColor !== "000000") {
       url += "&color=" + cleanColor;
     }
@@ -920,11 +891,7 @@
       colorInput.value
     );
 
-    // Show the generated API URL.
     urlInput.value = url;
-
-    // Don't fetch() it.
-    // Just let the browser load the image directly.
     loading.style.display = "block";
     placeholder.style.display = "none";
 
@@ -946,8 +913,6 @@
     image.src = url;
   }
 
-
-  // Main generator
   document.getElementById("generate").addEventListener(
     "click",
     () => {
@@ -979,8 +944,6 @@
     }
   );
 
-
-  // Testing section
   document.getElementById("testGenerate").addEventListener(
     "click",
     () => {
@@ -1041,8 +1004,6 @@
   setupCopy("copy", "generatedUrl");
   setupCopy("testCopy", "testUrl");
 
-
-  // Enter key support
   document.getElementById("username").addEventListener(
     "keydown",
     event => {
