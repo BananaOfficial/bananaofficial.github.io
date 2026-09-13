@@ -436,7 +436,7 @@
 </footer>
 
 <script>
-  const API_BASE = "https://cdn.bananaofficial.workers.dev/api/jokes";
+  const API_BASE = "https://cdn.bananaofficial.workers.dev/api/jokes/";
 
   const mode = document.getElementById("mode");
   const id = document.getElementById("id");
@@ -525,7 +525,6 @@
     try {
       const options = { method: mode.value };
 
-      // Your current Worker accepts POST parameters through the URL.
       const response = await fetch(requestURL, options);
       const text = await response.text();
 
