@@ -395,7 +395,7 @@
 
     <div class="docs">
       <div class="endpoint">
-        <h3><span class="method">GET</span><code>/api/jokes</code></h3>
+        <h3><span class="method">GET</span><code>/api/jokes/</code></h3>
         <p>Returns one random joke by default.</p>
         <table>
           <tr><th>Parameter</th><th>Values</th><th>Purpose</th></tr>
@@ -414,7 +414,7 @@
       </div>
 
       <div class="endpoint">
-        <h3><span class="method">POST</span><code>/api/jokes</code></h3>
+        <h3><span class="method">POST</span><code>/api/jokes/</code></h3>
         <p>Adds a joke to the database.</p>
         <table>
           <tr><th>Parameter</th><th>Purpose</th></tr>
@@ -424,7 +424,7 @@
           <tr><td><code>author</code></td><td>Name or label of the author.</td></tr>
         </table>
         <div class="note" style="margin-top: 15px;">
-          The explorer can generate POST URLs for testing, but sending data through a URL exposes it in browser history and server logs. For real applications, use a proper POST request with a request body.
+          The explorer can generate POST URLs for testing, but sending data through a URL exposes it in browser history and server logs.
         </div>
       </div>
     </div>
@@ -557,9 +557,7 @@
     cardOutput.innerHTML = "";
 
     try {
-      const response = await fetch(requestURL, {
-        method: mode.value
-      });
+      const response = await fetch(requestURL);
 
       const text = await response.text();
 
@@ -607,7 +605,7 @@
     try {
       const parsed = JSON.parse(output.textContent);
       output.textContent = JSON.stringify(parsed, null, 2);
-    } catch {}
+    } catch { }
   });
 
   [mode, id, category, random, setup, punchline, author].forEach(element => {
