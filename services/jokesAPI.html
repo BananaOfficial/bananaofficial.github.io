@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jokes API — Documentation & Explorer</title>
+  <title>Jokes API</title>
   <style>
     :root {
       --bg: #15171b;
@@ -313,7 +313,7 @@
 <main>
   <div class="hero">
     <h1>Jokes API</h1>
-    <p>A small API for fetching, filtering, and adding jokes. Build a request below and inspect the response without leaving the page.</p>
+    <p>An API for fetching, filtering, and adding jokes. Build a request below and inspect the response without leaving the page.</p>
   </div>
 
   <section id="explorer">
@@ -407,10 +407,10 @@
 
       <div class="endpoint">
         <h3>Examples</h3>
-        <p><code>/api/jokes</code> — random joke</p>
-        <p><code>/api/jokes?id=1</code> — joke #1</p>
-        <p><code>/api/jokes?category=programming</code> — random programming joke</p>
-        <p><code>/api/jokes?category=programming&amp;random=false</code> — all programming jokes</p>
+        <p><code>/api/jokes/</code> — random joke</p>
+        <p><code>/api/jokes/?id=1</code> — joke #1</p>
+        <p><code>/api/jokes/?category=programming</code> — random programming joke</p>
+        <p><code>/api/jokes/?category=programming&amp;random=false</code> — all programming jokes</p>
       </div>
 
       <div class="endpoint">
@@ -464,7 +464,6 @@
 
   function buildURL() {
     const params = new URLSearchParams();
-    params.set("method", mode.value);
 
     if (mode.value === "GET") {
       if (id.value) {
@@ -474,11 +473,14 @@
       if (category.value) {
         params.set("category", category.value);
       }
-
-      params.set("random", random.value);
+      if (random.value === "false") {
+        params.set("random", "false");
+      }
     }
 
     if (mode.value === "POST") {
+      params.set("method", "POST");
+
       if (category.value) {
         params.set("category", category.value);
       }
@@ -496,7 +498,8 @@
       }
     }
 
-    return `${API_BASE}?${params.toString()}`;
+    const query = params.toString();
+    return query ? `${API_BASE}?${query}` : API_BASE;
   }
 
   function renderCards(data) {
@@ -511,9 +514,7 @@
             ? [data]
             : [];
 
-    if (!jokes.length) {
-      return;
-    }
+    if (!jokes.length) return;
 
     const fragment = document.createDocumentFragment();
 
@@ -528,13 +529,8 @@
           <span class="tag">${escapeHTML(joke.author ?? "unknown")}</span>
         </div>
 
-        <div class="setup">
-          ${escapeHTML(joke.setup ?? "")}
-        </div>
-
-        <div class="punchline">
-          ${escapeHTML(joke.punchline ?? "")}
-        </div>
+        <div class="setup">${escapeHTML(joke.setup ?? "")}</div>
+        <div class="punchline">${escapeHTML(joke.punchline ?? "")}</div>
       `;
 
       fragment.appendChild(card);
@@ -554,8 +550,8 @@
 
   async function runRequest() {
     const requestURL = buildURL();
-    urlBox.value = requestURL;
 
+    urlBox.value = requestURL;
     status.textContent = "Loading...";
     output.textContent = "";
     cardOutput.innerHTML = "";
@@ -573,13 +569,13 @@
         data = JSON.parse(text);
         output.textContent = JSON.stringify(data, null, 2);
       } catch {
+        data = null;
         output.textContent = text;
       }
 
       status.textContent = `${response.status} ${response.statusText}`;
 
       renderCards(data);
-
     } catch (error) {
       status.textContent = "Request failed";
       output.textContent = String(error);
@@ -589,9 +585,7 @@
   document.getElementById("run").addEventListener("click", runRequest);
 
   document.getElementById("copy").addEventListener("click", async () => {
-    if (!urlBox.value) {
-      return;
-    }
+    if (!urlBox.value) return;
 
     try {
       await navigator.clipboard.writeText(urlBox.value);
@@ -604,7 +598,6 @@
       setTimeout(() => {
         copyButton.textContent = oldText;
       }, 900);
-
     } catch {
       status.textContent = "Could not copy URL";
     }
@@ -614,19 +607,10 @@
     try {
       const parsed = JSON.parse(output.textContent);
       output.textContent = JSON.stringify(parsed, null, 2);
-    } catch { }
+    } catch {}
   });
 
-  [
-    mode,
-    id,
-    category,
-    random,
-    setup,
-    punchline,
-    author
-  ].forEach(element => {
-
+  [mode, id, category, random, setup, punchline, author].forEach(element => {
     element.addEventListener("input", () => {
       urlBox.value = buildURL();
     });
