@@ -528,7 +528,7 @@
 
       try {
         data = JSON.parse(text);
-        output.textContent = JSON.stringify(data);
+        output.textContent = JSON.stringify(data, null, 2);
       } catch {
         data = null;
         output.textContent = text;
@@ -538,7 +538,6 @@
     } catch (error) {
       status.textContent = "Request failed";
       output.textContent = String(error);
-      document.getElementById("pretty").click()
     }
   }
 
