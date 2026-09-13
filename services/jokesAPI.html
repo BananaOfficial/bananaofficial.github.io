@@ -453,8 +453,10 @@
 
   function updateFields() {
     const post = mode.value === "POST";
+
     id.disabled = post;
     random.disabled = post;
+
     setup.parentElement.style.display = post ? "grid" : "none";
     punchline.parentElement.style.display = post ? "grid" : "none";
     author.parentElement.style.display = post ? "grid" : "none";
@@ -462,16 +464,36 @@
 
   function buildURL() {
     const params = new URLSearchParams();
+    params.set("method", mode.value);
 
     if (mode.value === "GET") {
-      if (id.value) params.set("id", id.value);
-      if (category.value) params.set("category", category.value);
-      if (random.value) params.set("random", random.value);
-    } else {
-      if (category.value) params.set("category", category.value);
-      if (setup.value) params.set("setup", setup.value);
-      if (punchline.value) params.set("punchline", punchline.value);
-      if (author.value) params.set("author", author.value);
+      if (id.value) {
+        params.set("id", id.value);
+      }
+
+      if (category.value) {
+        params.set("category", category.value);
+      }
+
+      params.set("random", random.value);
+    }
+
+    if (mode.value === "POST") {
+      if (category.value) {
+        params.set("category", category.value);
+      }
+
+      if (setup.value) {
+        params.set("setup", setup.value);
+      }
+
+      if (punchline.value) {
+        params.set("punchline", punchline.value);
+      }
+
+      if (author.value) {
+        params.set("author", author.value);
+      }
     }
 
     return `${API_BASE}?${params.toString()}`;
@@ -480,26 +502,41 @@
   function renderCards(data) {
     cardOutput.innerHTML = "";
 
-    const jokes = Array.isArray(data) ? data :
-      Array.isArray(data?.results) ? data.results :
-      data && data.id ? [data] : [];
+    const jokes =
+      Array.isArray(data)
+        ? data
+        : Array.isArray(data?.results)
+          ? data.results
+          : data && data.id
+            ? [data]
+            : [];
 
-    if (!jokes.length) return;
+    if (!jokes.length) {
+      return;
+    }
 
     const fragment = document.createDocumentFragment();
 
     jokes.forEach(joke => {
       const card = document.createElement("div");
       card.className = "joke-card";
+
       card.innerHTML = `
         <div class="meta">
           <span class="tag">ID ${escapeHTML(joke.id)}</span>
           <span class="tag">${escapeHTML(joke.category ?? "uncategorized")}</span>
           <span class="tag">${escapeHTML(joke.author ?? "unknown")}</span>
         </div>
-        <div class="setup">${escapeHTML(joke.setup ?? "")}</div>
-        <div class="punchline">${escapeHTML(joke.punchline ?? "")}</div>
+
+        <div class="setup">
+          ${escapeHTML(joke.setup ?? "")}
+        </div>
+
+        <div class="punchline">
+          ${escapeHTML(joke.punchline ?? "")}
+        </div>
       `;
+
       fragment.appendChild(card);
     });
 
@@ -518,15 +555,20 @@
   async function runRequest() {
     const requestURL = buildURL();
     urlBox.value = requestURL;
+
     status.textContent = "Loading...";
     output.textContent = "";
     cardOutput.innerHTML = "";
 
     try {
-      const response = await fetch(requestURL + `&method=${mode.value}`);
+      const response = await fetch(requestURL, {
+        method: mode.value
+      });
+
       const text = await response.text();
 
       let data;
+
       try {
         data = JSON.parse(text);
         output.textContent = JSON.stringify(data, null, 2);
@@ -535,7 +577,9 @@
       }
 
       status.textContent = `${response.status} ${response.statusText}`;
+
       renderCards(data);
+
     } catch (error) {
       status.textContent = "Request failed";
       output.textContent = String(error);
@@ -545,26 +589,49 @@
   document.getElementById("run").addEventListener("click", runRequest);
 
   document.getElementById("copy").addEventListener("click", async () => {
-    if (!urlBox.value) return;
-    await navigator.clipboard.writeText(urlBox.value);
-    const old = document.getElementById("copy").textContent;
-    document.getElementById("copy").textContent = "Copied";
-    setTimeout(() => {
-      document.getElementById("copy").textContent = old;
-    }, 900);
+    if (!urlBox.value) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(urlBox.value);
+
+      const copyButton = document.getElementById("copy");
+      const oldText = copyButton.textContent;
+
+      copyButton.textContent = "Copied";
+
+      setTimeout(() => {
+        copyButton.textContent = oldText;
+      }, 900);
+
+    } catch {
+      status.textContent = "Could not copy URL";
+    }
   });
 
   document.getElementById("pretty").addEventListener("click", () => {
     try {
-      output.textContent = JSON.stringify(JSON.parse(output.textContent), null, 2);
-    } catch {}
+      const parsed = JSON.parse(output.textContent);
+      output.textContent = JSON.stringify(parsed, null, 2);
+    } catch { }
   });
 
-  [mode, id, category, random, setup, punchline, author].forEach(el => {
-    el.addEventListener("input", () => {
+  [
+    mode,
+    id,
+    category,
+    random,
+    setup,
+    punchline,
+    author
+  ].forEach(element => {
+
+    element.addEventListener("input", () => {
       urlBox.value = buildURL();
     });
-    el.addEventListener("change", () => {
+
+    element.addEventListener("change", () => {
       updateFields();
       urlBox.value = buildURL();
     });
