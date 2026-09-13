@@ -565,7 +565,7 @@
 
       try {
         data = JSON.parse(text);
-        output.textContent = JSON.stringify(data, null, 2);
+        output.textContent = JSON.stringify(data);
       } catch {
         data = null;
         output.textContent = text;
