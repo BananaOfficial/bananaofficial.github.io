@@ -502,43 +502,6 @@
     return query ? `${API_BASE}?${query}` : API_BASE;
   }
 
-  function renderCards(data) {
-    cardOutput.innerHTML = "";
-
-    const jokes =
-      Array.isArray(data)
-        ? data
-        : Array.isArray(data?.results)
-          ? data.results
-          : data && data.id
-            ? [data]
-            : [];
-
-    if (!jokes.length) return;
-
-    const fragment = document.createDocumentFragment();
-
-    jokes.forEach(joke => {
-      const card = document.createElement("div");
-      card.className = "joke-card";
-
-      card.innerHTML = `
-        <div class="meta">
-          <span class="tag">ID ${escapeHTML(joke.id)}</span>
-          <span class="tag">${escapeHTML(joke.category ?? "uncategorized")}</span>
-          <span class="tag">${escapeHTML(joke.author ?? "unknown")}</span>
-        </div>
-
-        <div class="setup">${escapeHTML(joke.setup ?? "")}</div>
-        <div class="punchline">${escapeHTML(joke.punchline ?? "")}</div>
-      `;
-
-      fragment.appendChild(card);
-    });
-
-    cardOutput.appendChild(fragment);
-  }
-
   function escapeHTML(value) {
     return String(value)
       .replaceAll("&", "&amp;")
@@ -572,8 +535,6 @@
       }
 
       status.textContent = `${response.status} ${response.statusText}`;
-
-      renderCards(data);
     } catch (error) {
       status.textContent = "Request failed";
       output.textContent = String(error);
