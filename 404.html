@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>404 - Not Found</title>
+    <style>
+      :root {
+        --default-transition-duration: 225ms;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="min-h-screen items-center justify-center bg-[radial-gradient(#ffffff12_1.5px,transparent_1.5px)] bg-[size:24px_24px] text-center dark:bg-[#272727] dark:text-gray-300">
+      <h1 class="text-8xl font-bold tracking-tight text-amber-50">404</h1>
+      <p class="mt-2 text-2xl font-semibold">Not Found</p>
+      <p class="mt-2 text-gray-400">The page at the requested URL doesn't exist.</p>
+      <button id="back" class="mt-5 rounded-lg px-4 py-2 text-amber-50 transition hover:bg-[#514f4f] dark:bg-[#4a4a4a]">Go back</button>
+    </div>
+
+    <script>
+      document.getElementById("back").onclick = () => {
+          if (document.referrer) {
+              location.href = document.referrer;
+          } else {
+              history.back();
+          }
+      };
+    </script>
+  </body>
+</html>
